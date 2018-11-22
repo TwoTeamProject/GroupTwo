@@ -12,21 +12,18 @@ import javax.servlet.http.HttpServletResponse;
  * author:孙家庆
  * createTime:2018-11-10 16:39
  */
-/*zxf*/
-    /*Ryb*/
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //进入业务之前执行的方法
         System.out.println("进入业务之前经过了过滤器。。。。。。。。。。。");
-        /*Object userName = request.getSession().getAttribute("userName");
+        Object userName = request.getSession().getAttribute("username");
         if(userName==null){
-            response.sendRedirect("/sb/emp/login");
+            response.sendRedirect("login");
             return false;
         }else{
             return true;
-        }*/
-        return true;
+        }
     }
 
     @Override
