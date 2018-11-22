@@ -40,4 +40,9 @@ public class LoginController {
         }
         return "login";
     }
+
+    @RequestMapping("in")
+    public String in(){
+        return "room-type";
+    }
 }
