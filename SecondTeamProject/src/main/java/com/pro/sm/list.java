@@ -16,4 +16,9 @@ public class list {
     public String toList(){
         return "index";
     }
+
+    @RequestMapping("/toLogin")
+    public String toLogin(){
+        return "login";
+    }
 }
