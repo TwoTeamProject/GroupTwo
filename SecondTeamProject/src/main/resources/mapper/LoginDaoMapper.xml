@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pro.sm.dao.LoginDao">
+<mapper namespace="com.pro.sm.dao.login.LoginDao">
     <select id="userLogin" resultType="map">
-        select username,password from tb_user where username = #{username},password = #{password}
+        select username,password from tb_user where username = #{username} and password = #{password}
     </select>
 </mapper>

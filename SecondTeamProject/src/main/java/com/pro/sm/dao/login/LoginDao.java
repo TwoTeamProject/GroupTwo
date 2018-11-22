@@ -1,4 +1,6 @@
-package com.pro.sm.dao;
+package com.pro.sm.dao.login;
+
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
