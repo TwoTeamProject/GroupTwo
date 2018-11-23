@@ -24,5 +24,19 @@ public interface RoomTypeService {
      * 主页
      * @return
      */
-    List<Map> selectRoom();
+    List<Map> selectRoom(Map map);
+
+    /**
+     * 总数量
+     * @param map
+     * @return
+     */
+    int getPageCount(Map map);
+
+    /**
+     * 添加房间
+     * @param map
+     * @return
+     */
+    int insertRoom(Map map);
 }
