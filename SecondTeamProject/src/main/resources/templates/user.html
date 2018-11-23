@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <script src="../js/jquery-1.8.3.min.js"></script>
+    <script src="../lib/layui/layui.js"></script>
+
+    <style type="text/css">
+        .layui-table-cell .layui-form-checkbox[lay-skin="primary"] {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+
+</head>
+<body>
+ <div class="demoTable" style="margin-top: 10px;width: 1662px;margin-left: 20px;">
+    用户名称:
+    <div class="layui-inline">
+        <input class="layui-input" name="name" id="demoReload" autocomplete="off">
+    </div>
+    用户邮箱:
+    <div class="layui-inline">
+        <input class="layui-input" name="email" id="demoReload2" autocomplete="off">
+    </div>
+    <div class="layui-btn" data-type="reload" id="searchBtn"><i class="layui-icon">&#xe615;</i>搜索</div>
+    <div class="layui-btn" data-type="reload" id="redo"><i class="layui-icon">&#xe669;</i></div>
+
+
+    <div class="layui-btn layui-btn-warm" id="userAdd" style="margin-left:870px;"><i class="layui-icon">&#xe608;</i>添加</div>
+ </div>
+    <table class="layui-hide" id="userlist" lay-filter="demo"></table>
+
+ <script>
+     layui.use('table', function(){
+         var table = layui.table;
+
+         table.render({
+             elem: '#userlist'
+             ,title: '用户数据表'
+             ,height:790
+             ,width:1910
+             ,url: '/sb/user/list'
+             ,toolbar: '#toolbarDemo'
+             ,page: true
+             ,even: true
+             ,size: 'lg'
+             ,cols:[ [
+                 {checkbox: true, fixed: true}
+                 ,{field: 'USER_ID', title: '序号', width:300, sort: true, unresize: true ,fixed: 'left'}
+                 ,{field: 'USER_NAME', title: '姓名', width:310}
+                 ,{field: 'USER_GENDER', title: '性别', width:310,templet:'#SEX'}
+                 ,{field: 'USER_AGE', title: '年龄', width:310}
+                 ,{field: 'USER_EMAIL', title: '邮箱', width:310}
+                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:310}
+             ]]
+             ,id: 'testReload'
+         })
+     })
+     $("#userAdd").click(function () {
+         layer.open({
+             title:'用户添加'
+             ,type: 1
+             ,area: ['600px', '600px']
+             ,anim: 1
+             ,content:$("#addDemo").html()
+             ,success:function (layero,index) {
+                 var flag=true; //状态码
+
+             $("#user_id,#user_name,#user_gender,#user_age,#user_email").focus(function () {
+                 $("span").html("");
+             });
+             $("#user_id,#user_name,#user_gender,#user_age,#user_email").blur(function () {
+                 var state;
+                 var obj = $(this);
+                 var allname = /^[\u4E00-\u9FA5A-Za-z]+$/;//验证姓名
+                 var req = obj.attr("req");
+                 var check_type = obj.attr("name");
+                 var span_id = "#"+obj.attr("id")+"_span";//当前点击对应的span
+                 if (req=="req"){
+                     if (obj.val().trim()=="" || obj.val()==null){
+                         flag=false;
+                         $(span_id).text("内容不能为空").css("color","#FF0000");
+                     }else{
+                         flag=true;
+                     }
+                 }
+                 if (check_type=='user_name'){
+                     if(!(allname.test(obj.val()))){
+                         flag=false;
+                         $(span_id).text("输入不合格").css("color","#FF0000");
+                     }else{
+                         flag=true;
+                     }
+                 }
+             })
+             $("#sbt2").click(function () {
+                 $("#user_id,#user_name,#user_gender,#user_age,#user_email").trigger("blur");
+                 if (flag==false){
+                     return;
+                 }
+                 $.ajax({
+                     url: '/sb/user/add',
+                     type:'post',
+                     data:{"user_name":$("#user_name").val(),"user_gender":$("#user_gender").val(),"user_age":$("#user_age").val(),"user_email":$("#user_email").val()},
+                     dataType:"json",
+                     success:function (data) {
+                         var pageNum = $(".layui-laypage-curr .layui-laypage-em").next().html();
+                         if(data.issuc==true){
+                             layer.close(index);
+                             layer.msg("添加成功", {icon: 6});
+                             setTimeout(function () {
+                                 //修改页码input框的值为当前页码
+                                 $(".layui-laypage-skip .layui-input").val(pageNum);
+                                 //触发页码确定按钮 实现只刷新当前页面
+                                 $(".layui-laypage-btn").trigger("click");
+                             }, 800);
+                         }else{
+                             layer.msg("添加失败", {icon: 5});
+                         }
+                     }
+                 })
+             })
+                 //弹出层取消
+                 $("#cancel2").click(function(){
+                     layer.closeAll('page');
+                 })
+
+             }
+         })
+     })
+ </script>
+ <script type="text/html" id="SEX">
+     {{# if (d.USER_GENDER=== 1) { }}
+     <a>男</a>
+     {{# } else if(d.USER_GENDER=== 2) { }}
+     <a>女</a>
+     {{# } }}
+ </script>
+ <script type="text/html" id="barDemo">
+     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑<i class="layui-icon">&#xe642;</i></a>
+ </script>
+ <script type="text/html" id="addDemo">
+     <form id="addForm">
+         <table align="center" style="margin-top: 30px;margin-bottom: 50px;">
+             <tr>
+                 <td>
+                     <div class="layui-inline">
+                         <label class="layui-form-label">用户姓名</label>
+                         <div class="layui-input-inline">
+                             <input name="user_name" class="layui-input" id="user_name" req="req">
+                         </div>
+                     </div>
+                 </td>
+             </tr>
+             <tr>
+                 <td style="height:30px;padding-left:110px;"><span id="user_name_span"></span></td>
+             </tr>
+             <tr>
+                 <td>
+                     <div class="layui-inline">
+                         <label class="layui-form-label">用户性别</label>
+                         <div class="layui-input-inline">
+                             <input name="user_gender" class="layui-input" id="user_gender" req="req">
+                         </div>
+                     </div>
+                 </td>
+             </tr>
+             <tr>
+                 <td style="height:30px;padding-left:110px;"><span id="user_gender_span"></span></td>
+             </tr>
+             <tr>
+                 <td>
+                     <div class="layui-inline">
+                         <label class="layui-form-label">用户年龄</label>
+                         <div class="layui-input-inline">
+                             <input name="user_age" class="layui-input" id="user_age" req="req">
+                         </div>
+                     </div>
+                 </td>
+             </tr>
+             <tr>
+                 <td style="height:30px;padding-left:110px;"><span id="user_age_span"></span></td>
+             </tr>
+             <tr>
+                 <td>
+                     <div class="layui-inline">
+                         <label class="layui-form-label">用户邮箱</label>
+                         <div class="layui-input-inline">
+                             <input name="user_email" class="layui-input" id="user_email" req="req">
+                         </div>
+                     </div>
+                 </td>
+             </tr>
+             <tr>
+                 <td style="height:30px;padding-left:110px;"><span id="user_email_span"></span></td>
+             </tr>
+         </table>
+     </form>
+     <div align="center">
+         <input type="button" value="确认添加" id="sbt2" class="layui-btn layui-btn-sm" />
+         <input type="button" value="取消" id="cancel2" class="layui-btn layui-btn-sm layui-btn-normal" />
+     </div>
+ </script>
+ </body>
+</html>
