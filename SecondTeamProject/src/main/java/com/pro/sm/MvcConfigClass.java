@@ -1,6 +1,7 @@
 package com.pro.sm;
 
 import com.pro.sm.interceptor.LoginInterceptor;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * author:sjq
  * createTime:2018-11-20 18:48
  */
+@SpringBootConfiguration
 public class MvcConfigClass implements WebMvcConfigurer {
 
     @Override

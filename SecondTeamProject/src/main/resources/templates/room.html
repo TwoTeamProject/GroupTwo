@@ -91,15 +91,22 @@
 
         .icon_lists li{
             float:left;
-            width: 400px;
-            height:400px;
+            width: 150px;
+            height:150px;
+            margin:20px;
+            padding-top:20px;
             text-align: center;
             list-style: none !important;
+            background: #1AA093;
+            /*filter:alpha(opacity=20);*/
         }
-        .icon_lists li img{
+        .icon_lists li div{
+            padding-top:5px;
+        }
+       /* .icon_lists li img{
             width: 400px;
             height:300px;
-        }
+        }*/
         .icon_lists .icon{
             font-size: 42px;
             line-height: 100px;
@@ -388,23 +395,78 @@
             -webkit-text-stroke-width: 0.2px;
             -moz-osx-font-smoothing: grayscale;
         }
+        .c1{
+            color:green;
+        }
+        .c2{
+            color:yellow;
+        }
+        .c3{
+            color:darkred;
+        }
+        .c4{
+            color:darkslateblue;
+        }
+        .btn{
+            vertical-align: middle;
+            padding: 12px 24px;
+            margin: 0px;
+            font-size: 15px;
+            line-height: 18px;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: not-allowed;
+            color: darkred;
+            background-color: #189F92;
+            border-radius: 3px;
+            border: none;
+            -webkit-appearance: none;
+            outline:none;
+            width:100%;
+        }
     </style>
     <script>
         $(function(){
             $.ajax({
-                url:"/sb/room/type",
+                url:"/sb/room/allRoom",
                 type:"POST",
                 dataType:"json",
                 success : function(data){
                     if(data!=''){
                         var str = "";
                         for(var i = 0;i<data.length;i++){
+                            var temp="";
+                            var className="";
+                            var classBtn="";
+                            var val="";
+                            if(data[i].ROOM_STATE=='0'){
+                                temp ="未入住";
+                                className="c1";
+                                classBtn="layui-btn";
+                                val ="点击入住";
+                            }else if(data[i].ROOM_STATE=='1'){
+                                temp ="正在打扫";
+                                className="c2";
+                                classBtn="btn";
+                                val ="不能入住";
+                            }else if(data[i].ROOM_STATE=='2'){
+                                temp ="已入住";
+                                className="c3";
+                                classBtn="btn";
+                                val ="不能入住";
+                            }else{
+                                temp ="网上预定";
+                                className="c4";
+                                classBtn="btn";
+                                val ="不能入住";
+                            }
                             str+="<li>\n" +
-                                "<i class=\"icon iconfont\">"+"<img src="+data[i].ROOM_IMG+"/>"+"</i>\n" +
+                                "<div class=\"name\">房间号："+data[i].ROOM_CODE+"</div>\n" +
                                 "<div class=\"name\">"+data[i].ROOM_TYPENAME+"</div>\n" +
-                                "<div class=\"name\">价格："+data[i].ROOM_TYPEPRICE+"￥</div>\n" +
-                                "<div class=\"code\">"+data[i].ROOM_INFO+"</div>\n" +
-                                "</li>"
+                                "<div><span class=\"name\">房间状态：</span><span class=\""+className+"\">"+temp+"</span></div>\n" +
+                                "<div class='di'><input class='"+classBtn+"' type='button' value='"+val+"'></input></div>\n" +
+                                "</li>";
                         }
                         $("#str").append(str);
                         /*alert(str)*/
@@ -416,38 +478,8 @@
 </head>
 <body>
 <div class="main markdown">
-    <h1>房间类型</h1>
+    <h1>所有房间</h1>
     <ul class="icon_lists clear" id="str">
-        <!--<li>
-            <i class="icon iconfont"><img src="../imgs/单人房.jpg"/></i>
-            <div class="name">单人房</div>
-            <div class="code">温暖舒适，适合单人租住</div>
-        </li>
-        <li>
-            <i class="icon iconfont"><img src="../imgs/双人房.jpg"/></i>
-            <div class="name">双人房</div>
-            <div class="code">温暖舒适，适合租住</div>
-        </li>
-        <li>
-            <i class="icon iconfont"><img src="../imgs/大床房.jpg"/></i>
-            <div class="name">大床房</div>
-            <div class="code">温暖舒适，适合租住</div>
-        </li>
-        <li>
-            <i class="icon iconfont"><img src="../imgs/普通房.jpg"/></i>
-            <div class="name">普通房</div>
-            <div class="code">温暖舒适，适合租住</div>
-        </li>
-        <li>
-            <i class="icon iconfont"><img src="../imgs/豪华房.jpg"/></i>
-            <div class="name">豪华房</div>
-            <div class="code">温暖舒适，适合租住</div>
-        </li>
-        <li>
-            <i class="icon iconfont"><img src="../imgs/豪华套房.jpg"/></i>
-            <div class="name">豪华套房</div>
-            <div class="code">温暖舒适，适合租住</div>
-        </li>-->
     </ul>
 </div>
 </body>
