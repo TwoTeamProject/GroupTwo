@@ -7,6 +7,6 @@
         select * from tb_roomtype
     </select>
     <select id="selectRoom" resultType="map">
-        select room_code,room_typename,room_state from tb_room a,tb_roomtype b where a.room_typeid=b.room_typeid and order by room_code
+        select room_code,room_typename,room_state from tb_room a,tb_roomtype b where a.room_typeid=b.room_typeid order by room_code
     </select>
 </mapper>
