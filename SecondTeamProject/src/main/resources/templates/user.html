@@ -67,12 +67,12 @@
              ,anim: 1
              ,content:$("#addDemo").html()
              ,success:function (layero,index) {
-                 var flag=true; //状态码
+                 var flag=true; //状态码*/
 
-             $("#user_id,#user_name,#user_gender,#user_age,#user_email").focus(function () {
+            $("#user_id,#user_name,#user_gender,#user_age,#user_email").focus(function () {
                  $("span").html("");
              });
-             $("#user_id,#user_name,#user_gender,#user_age,#user_email").blur(function () {
+            $("#user_id,#user_name,#user_gender,#user_age,#user_email").blur(function () {
                  var state;
                  var obj = $(this);
                  var allname = /^[\u4E00-\u9FA5A-Za-z]+$/;//验证姓名
@@ -95,7 +95,7 @@
                          flag=true;
                      }
                  }
-             })
+             });
              $("#sbt2").click(function () {
                  $("#user_id,#user_name,#user_gender,#user_age,#user_email").trigger("blur");
                  if (flag==false){
@@ -112,25 +112,26 @@
                              layer.close(index);
                              layer.msg("添加成功", {icon: 6});
                              setTimeout(function () {
-                                 //修改页码input框的值为当前页码
-                                 $(".layui-laypage-skip .layui-input").val(pageNum);
-                                 //触发页码确定按钮 实现只刷新当前页面
-                                 $(".layui-laypage-btn").trigger("click");
-                             }, 800);
+                             //修改页码input框的值为当前页码
+                                 //$(".layui-laypage-skip .layui-input").val(pageNum);
+                                 //触发页码确定按钮 实现只刷新当前页
+                                 location.reload();
+                             }, 700);
+
                          }else{
                              layer.msg("添加失败", {icon: 5});
                          }
                      }
                  })
-             })
+             });
                  //弹出层取消
                  $("#cancel2").click(function(){
                      layer.closeAll('page');
                  })
 
              }
-         })
-     })
+         });
+     });
  </script>
  <script type="text/html" id="SEX">
      {{# if (d.USER_GENDER=== 1) { }}
