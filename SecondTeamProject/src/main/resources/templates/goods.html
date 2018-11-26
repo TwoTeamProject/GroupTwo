@@ -41,8 +41,13 @@
                     , {field: 'OPERATE_TIME', title: '操作时间', width: 310}
                     , {field: 'GOODS_NUM', title: '商品数量', width: 310}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 310}
-                ]]
-                , id: 'testReload'
+                ] ]
+                , request:{
+                    pageName:'pageNo',//页码的参数名称，默认：page
+                    limitName:'pageSize'//每页数据量的参数名：默认：limit
+                },
+                limits:[5,10,15],  //显示
+                limit:10  //每页默认显示的数量
                 //隐藏id
                 , done: function () {
                     $("[data-field='GOODS_ID']").css('display', 'none');

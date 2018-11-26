@@ -30,19 +30,26 @@ public class GoodsController {
     private GoodsService goodsService;
 
     /**
+     * 分页
      * 获取商品列表信息
      * @return
      */
     //返回JSON
     @ResponseBody
     @RequestMapping("/List")
-    public Object getList(){
+    public Object getGoodsList(@RequestParam Map map){
         Map tempMap = new HashMap();
         tempMap.put("code",0);
         tempMap.put("msg","");
-        tempMap.put("data",goodsService.getList());
+        tempMap.put("count",goodsService.getGoodsCount());
+        tempMap.put("data",goodsService.getGoodsList(map));
         return tempMap;
     }
+    @RequestMapping("/toGoods")
+    public String toList(){
+        return "goods";
+    }
+
     /**
      * 商品列表请求方法
      * @return

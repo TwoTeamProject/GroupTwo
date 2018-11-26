@@ -3,9 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pro.sm.dao.Goods.GoodsDao">
+    <!--分页-->
     <!-- 查询商品信息 -->
-    <select id="getList" resultType="map">
-        select GOODS_ID,GOODS_NAME,GOODS_PRICE,to_char(OPERATE_TIME,'yyyy-mm-dd hh24:mi:ss') as OPERATE_TIME,GOODS_NUM from tb_goods
+    <!--  select * from
+        (select rownum rn,t.* from emp t where rownum &lt; #{end}) a
+        where a.rn &gt; #{start}-->
+    <select id="getGoodsList" resultType="map">
+        select * from
+        (select rownum rn,t.GOODS_ID,t.GOODS_NAME,t.GOODS_PRICE,to_char(t.OPERATE_TIME,'yyyy-mm-dd hh24:mi:ss') as OPERATE_TIME,
+        t.GOODS_NUM from tb_goods t where rownum &lt; #{end}) a where a.rn &gt; #{start}
+    </select>
+    <!-- 查询数量 -->
+    <select id="getGoodsCount" resultType="int">
+        select count(*) from tb_goods
     </select>
     <!-- 增加商品 -->
     <insert id="add">

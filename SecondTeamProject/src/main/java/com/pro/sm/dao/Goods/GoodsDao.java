@@ -12,10 +12,16 @@ import java.util.Map;
 public interface GoodsDao {
 
     /**
-     * 物品信息查询
+     * 查询商品信息
+     * @param map
      * @return
      */
-    List<Map> getList();
+    List<Map> getGoodsList(Map map);
+    /**
+     * 获取分页总数量
+     * @return
+     */
+    int getGoodsCount();
 
     /**
      * 商品添加
