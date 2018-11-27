@@ -1,7 +1,6 @@
 package com.pro.sm.controller.goods;
 
 import com.pro.sm.service.Goods.GoodsService;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,10 +43,6 @@ public class GoodsController {
         tempMap.put("data",goodsService.getGoodsList(map));
         return tempMap;
     }
-    @RequestMapping("/toGoods")
-    public String toList(){
-        return "goods";
-    }
 
     /**
      * 商品列表请求方法
@@ -56,7 +50,7 @@ public class GoodsController {
      */
     @RequestMapping("/toList")
     public String toGetList(){
-        return "goods";
+        return "all-goods/goods";
     }
 
     /**
